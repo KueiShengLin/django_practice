@@ -32,14 +32,4 @@ class AirQuality(models.Model):
     def __str__(self):
         return self.station + ' ' + str(self.time)
 
-
-# def csv_to_sqlite():
-#     con = sqlite3.connect("../db.sqlite3")
-#
-#     air_data.to_sql("air_quailty", con, if_exists="append", index=False)
-#
-#
-# if __name__ == '__main__':
-#     csv_to_sqlite()
-#     print("convert down")
 #
