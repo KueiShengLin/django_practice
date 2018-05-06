@@ -1,0 +1,48 @@
+body{
+    /*瀏覽器沒有第一種字型的時候，會自動顯示第二種字型，以此類推*/
+    font-family: serif, sans-serif, cursive, fantasy, monospace;
+
+    /*背景色*/
+    background: #fefefe;
+
+    /*設定邊距 2個參數:上下、左右 4個參數：上、右、下、左*/
+    margin: 0, auto;
+}
+
+
+#menu{
+   height: 10%;
+   width: 100%
+}
+
+#station_select, #attribute_select{
+    display: inline;
+}
+
+#chart_holder{
+    height: 900px;
+    width: 100%;
+}
+
+#chart_holder svg{
+    width: 100%;
+    height: 100%;
+}
+
+#time_chart{
+    border: 1px solid gray;
+    width: 100%;
+    height: 30%;
+}
+
+#taiwan_map{
+    border: 1px solid red;
+    width: 100%;
+    height: 30%;
+}
+
+#bar_chart{
+    border: 1px solid blue;
+    width: 100%;
+    height: 30%;
+}
