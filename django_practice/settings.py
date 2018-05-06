@@ -25,7 +25,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -113,7 +112,12 @@ USE_L10N = True
 USE_TZ = False
 
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images) 放在app底下才抓的到
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+# 這個東西是專案需要自己的static時可以用的
+# STATICFILES_DIRS = [
+#     "./static"
+# ]
 
 STATIC_URL = '/static/'
