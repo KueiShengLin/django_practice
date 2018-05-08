@@ -1,7 +1,7 @@
 # 參考資料
 
 ## Django
-### 架構
+### 初學
   * Django 基本教學 - 從無到有
     > https://github.com/twtrubiks/django-tutorial
     > https://carolhsu.gitbooks.io/django-girls-tutorial-traditional-chiness/content/python_installation/README.html
@@ -10,10 +10,12 @@
   * Shell 指令
     > https://blog.liang2.tw/posts/2015/10/django-draw-member/#django-model-and-orm
     > https://hk.saowen.com/a/3c3fc453b801ef6b09b730a063b47470581f4306780a0f518f86d0d2b1382b2f
-
+### Template Tag
+  * 官方文本
+    > https://docs.djangoproject.com/en/2.0/ref/templates/builtins/
 ### DRF
  * 從無到有 DRF 教學
-   > https://github.com/twtrubiks/django-rest-framework-tutorial
+    > https://github.com/twtrubiks/django-rest-framework-tutorial
    
 ## 前端
 ### Bootstrp
