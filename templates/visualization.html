@@ -7,23 +7,28 @@
     <!-- import css -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" />
+
+    <!--匯入 JavaScript-->
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </head>
+
 <body>
-    {{hello}}
     <!--選單列-->
-    <div id="menu">
-        <div id="station_select">
+    <div id="menu" class="row">
+        <div id="station_select" class="col-md-4">
             地名
-            <select>
+            <select class="form-control">
                 {% for station in station_list %}
                     <option value={{station}}>{{station}}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <div id="attribute_select">
+        <div id="attribute_select" class="col-md-4">
             觀察對象
-            <select>
+            <select class="form-control">
                 {% for attribute in attribute_list %}
                     <option value={{attribute}}>{{attribute}}</option>
                 {% endfor %}
@@ -32,23 +37,70 @@
     </div>
 
     <!--視覺化元件-->
-    <div id="chart_holder" class="_dev">
-        <!--時間序列圖表-->
-        <div id="time_chart">time_chart</div>
+    <div id="map_holder" class="row">
         <!--台灣地圖-->
-        <div id="taiwan_map">taiwan_map</div>
-        <!--直方圖-->
-        <div id="bar_chart">bar_chart</div>
+        <div id="taiwan_map" class="col-md">taiwan_map</div>
     </div>
 
-    <!--匯入 JavaScript-->
-    <script src="https://d3js.org/d3.v5.js"></script>
+    <div id="chart_holder" class="row">
+        <!--時間序列圖表-->
+        <div id="time_chart" class="col-md-4">
+            time_chart
+        </div>
 
-    <!--視覺化JS檔-->
+        <!--直方圖-->
+        <div id="bar_chart" class="col-md-4">
+            <h5>bar_chart</h5>
+        </div>
+
+    </div>
+
+</body>
+
+<!--視覺化JS檔-->
     <script src="js/core.js"></script>
     <script src="js/menu.js"></script>
     <script src="js/time_chart.js"></script>
     <script src="js/bar_chart.js"></script>
     <script src="js/main.js"></script>
-</body>
+
+<script>
+    // django 資料
+    var barHeight = {{bar_height}};
+    //計算資料最大值
+    var maxValue = d3.max(barHeight);
+    // 抓取 #bar_chart 以及他的屬性
+    var barChartHolder = d3.select("#bar_chart");
+    var boundingRect = barChartHolder.node().getBoundingClientRect();
+    var colmdHeight = 189;
+    var margin = {top:20, right:20, bottom:30, left:40};
+    //之後 每個 bar 的大小
+    var barWidth = boundingRect.width / (barHeight.length+1);
+    //抓到要畫圖的div 並加入 svg 和 group
+    var svg = d3.select('#bar_chart').append('svg').attr('id', 'd3_rect')
+      .attr('width', boundingRect.width-margin.right).attr('height', colmdHeight-margin.bottom)
+      .append('g').attr('id', 'de_rect_group')
+      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+
+    //比例尺 0~maxValue 映射到 0~div高度(495.5 * 189)
+    var scale = d3.scaleLinear()
+                  .domain([0,maxValue])
+                  .range([0, colmdHeight-margin.bottom]);//反過來是因為y軸往下是正，這樣才會由下往上(有點問題)
+    //比例尺變顏色!!
+    var color = d3.scaleLinear().domain([0,maxValue]).range(["red", "blue"])
+    //順序式比例尺 允許矩陣 => 矩陣 (離散 或 連續 都可以)
+    var oScale = d3.scaleBand().domain(d3.range(barHeight.length))
+                   .range([0, boundingRect.width-margin.right]) //para 1 : 同scale range 2: 值和值間的填補大小
+                   .paddingInner(0.1);
+
+    for (var i =0; i< barHeight.length; i++)
+    {
+       svg.append('rect')
+       .attr('width', barWidth).attr('height',scale(barHeight[i])).attr('id','test rect_'+i)
+       .attr('x', oScale(i)).attr('y', colmdHeight-margin.bottom-scale(barHeight[i]))
+       .attr('fill', color(barHeight[i]));
+    }
+
+</script>
+
 </html>
