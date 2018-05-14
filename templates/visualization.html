@@ -11,10 +11,12 @@
     <!--匯入 JavaScript-->
     <script src="http://d3js.org/d3.v4.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </head>
 
 <body>
+    <h5 id="hello"></h5>
     <!--選單列-->
     <div id="menu" class="row">
         <div id="station_select" class="col-md-4">
@@ -54,53 +56,69 @@
         </div>
 
     </div>
-
+    <div >
+        <button type="button" id="btn">hello</button>
+    </div>
 </body>
 
 <!--視覺化JS檔-->
+<!--
     <script src="js/core.js"></script>
     <script src="js/menu.js"></script>
     <script src="js/time_chart.js"></script>
     <script src="js/bar_chart.js"></script>
     <script src="js/main.js"></script>
+-->
 
+{% block javascript %}
 <script>
-    // django 資料
-    var barHeight = {{bar_height}};
-    //計算資料最大值
-    var maxValue = d3.max(barHeight);
-    // 抓取 #bar_chart 以及他的屬性
-    var barChartHolder = d3.select("#bar_chart");
-    var boundingRect = barChartHolder.node().getBoundingClientRect();
-    var colmdHeight = 189;
-    var margin = {top:20, right:20, bottom:30, left:40};
-    //之後 每個 bar 的大小
-    var barWidth = boundingRect.width / (barHeight.length+1);
-    //抓到要畫圖的div 並加入 svg 和 group
-    var svg = d3.select('#bar_chart').append('svg').attr('id', 'd3_rect')
-      .attr('width', boundingRect.width-margin.right).attr('height', colmdHeight-margin.bottom)
-      .append('g').attr('id', 'de_rect_group')
-      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+    $("#station_select").click(function(){
+        $.ajax({
+            url:"/weather/station_change",
+            data:{"hello":"yo yo hi hi yo hi yo hihi"},
+            dataType:"json",
+            success: function(back){
+                    alert(back.hello);
 
-    //比例尺 0~maxValue 映射到 0~div高度(495.5 * 189)
-    var scale = d3.scaleLinear()
-                  .domain([0,maxValue])
-                  .range([0, colmdHeight-margin.bottom]);//反過來是因為y軸往下是正，這樣才會由下往上(有點問題)
-    //比例尺變顏色!!
-    var color = d3.scaleLinear().domain([0,maxValue]).range(["red", "blue"])
-    //順序式比例尺 允許矩陣 => 矩陣 (離散 或 連續 都可以)
-    var oScale = d3.scaleBand().domain(d3.range(barHeight.length))
-                   .range([0, boundingRect.width-margin.right]) //para 1 : 同scale range 2: 值和值間的填補大小
-                   .paddingInner(0.1);
-
-    for (var i =0; i< barHeight.length; i++)
-    {
-       svg.append('rect')
-       .attr('width', barWidth).attr('height',scale(barHeight[i])).attr('id','test rect_'+i)
-       .attr('x', oScale(i)).attr('y', colmdHeight-margin.bottom-scale(barHeight[i]))
-       .attr('fill', color(barHeight[i]));
-    }
+            }
+        });
+    });
+    // // django 資料
+    // var barHeight = {{bar_height}};
+    // //計算資料最大值
+    // var maxValue = d3.max(barHeight);
+    // // 抓取 #bar_chart 以及他的屬性
+    // var barChartHolder = d3.select("#bar_chart");
+    // var boundingRect = barChartHolder.node().getBoundingClientRect();
+    // var colmdHeight = 189;
+    // var margin = {top:20, right:20, bottom:30, left:40};
+    // //之後 每個 bar 的大小
+    // var barWidth = boundingRect.width / (barHeight.length+1);
+    // //抓到要畫圖的div 並加入 svg 和 group
+    // var svg = d3.select('#bar_chart').append('svg').attr('id', 'd3_rect')
+    //   .attr('width', boundingRect.width-margin.right).attr('height', colmdHeight-margin.bottom)
+    //   .append('g').attr('id', 'de_rect_group')
+    //   .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+    //
+    // //比例尺 0~maxValue 映射到 0~div高度(495.5 * 189)
+    // var scale = d3.scaleLinear()
+    //               .domain([0,maxValue])
+    //               .range([0, colmdHeight-margin.bottom]);//反過來是因為y軸往下是正，這樣才會由下往上(有點問題)
+    // //比例尺變顏色!!
+    // var color = d3.scaleLinear().domain([0,maxValue]).range(["red", "blue"])
+    // //順序式比例尺 允許矩陣 => 矩陣 (離散 或 連續 都可以)
+    // var oScale = d3.scaleBand().domain(d3.range(barHeight.length))
+    //                .range([0, boundingRect.width-margin.right]) //para 1 : 同scale range 2: 值和值間的填補大小
+    //                .paddingInner(0.1);
+    //
+    // for (var i =0; i< barHeight.length; i++)
+    // {
+    //    svg.append('rect')
+    //    .attr('width', barWidth).attr('height',scale(barHeight[i])).attr('id','test rect_'+i)
+    //    .attr('x', oScale(i)).attr('y', colmdHeight-margin.bottom-scale(barHeight[i]))
+    //    .attr('fill', color(barHeight[i]));
+    // }
 
 </script>
-
+{% endblock %}
 </html>

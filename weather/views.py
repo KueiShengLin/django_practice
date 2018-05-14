@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from weather.models import AirQuality
-from django.http import HttpResponse
+from django.http import JsonResponse
+import pandas as pd
 
 # Create your views here.
 """
@@ -19,3 +20,21 @@ def menu(request):
 
     return render(request, 'visualization.html', {"station_list": station_list, "attribute_list": attribute_list})
 
+
+def return_station(request):
+    hello_get = request.GET.get('hello')
+    hello_json = {"hello": hello_get}
+
+    # station = request.GET.get('station', None)
+    # station_data = AirQuality.objects.filter(station=station)
+    # station_data = pd.DataFrame(list(station_data.values()))
+    # station_data.index = station_data['time']
+    # del station_data['time']
+    # station_data = station_data.resample('D').mean()  # 依照"D"(天) 重新間隔
+    #
+    # return render(request, 'visualization.html', {"station_data": station_data})
+
+    return JsonResponse(hello_json)
+
+
+#

@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from weather.views import menu
-
+from weather.views import return_station
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('weather/', menu)
+    path('weather/', menu),
+    path('weather/station_change', return_station, name="station_change"),
 
 ]
