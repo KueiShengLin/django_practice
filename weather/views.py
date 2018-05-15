@@ -22,19 +22,21 @@ def menu(request):
 
 
 def return_station(request):
-    hello_get = request.GET.get('hello')
-    hello_json = {"hello": hello_get}
+    station = str(request.GET.get("select_station_value"))
+    attribute = str(request.GET.get("select_attribute_value"))
 
-    # station = request.GET.get('station', None)
-    # station_data = AirQuality.objects.filter(station=station)
-    # station_data = pd.DataFrame(list(station_data.values()))
-    # station_data.index = station_data['time']
-    # del station_data['time']
-    # station_data = station_data.resample('D').mean()  # 依照"D"(天) 重新間隔
-    #
-    # return render(request, 'visualization.html', {"station_data": station_data})
+    station_data = AirQuality.objects.filter(station=station)
+    station_data = pd.DataFrame(list(station_data.values()))
+    station_data.index = station_data['time']
+    del station_data['time']
+    station_data = station_data.resample('D').mean()  # 依照"D"(天) 重新間隔
 
-    return JsonResponse(hello_json)
+    user_request_time = list(station_data.index)
+    user_request_data = list(station_data[attribute])
+
+    return_data = {"user_request_data": user_request_data, "user_request_time": user_request_time}
+
+    return JsonResponse(return_data)
 
 
 #

@@ -19,18 +19,18 @@
     <h5 id="hello"></h5>
     <!--選單列-->
     <div id="menu" class="row">
-        <div id="station_select" class="col-md-4">
+        <div id="station_select_div" class="col-md-4">
             地名
-            <select class="form-control">
+            <select class="form-control" id="station_select">
                 {% for station in station_list %}
                     <option value={{station}}>{{station}}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <div id="attribute_select" class="col-md-4">
+        <div id="attribute_select_div" class="col-md-4">
             觀察對象
-            <select class="form-control">
+            <select class="form-control" id="attribute_select">
                 {% for attribute in attribute_list %}
                     <option value={{attribute}}>{{attribute}}</option>
                 {% endfor %}
@@ -46,14 +46,16 @@
 
     <div id="chart_holder" class="row">
         <!--時間序列圖表-->
-        <div id="time_chart" class="col-md-4">
+        <div id="time_chart_div" class="col-md-12">
             time_chart
         </div>
 
         <!--直方圖-->
-        <div id="bar_chart" class="col-md-4">
+        <!--
+        <div id="bar_chart_div" class="col-md-6">
             <h5>bar_chart</h5>
         </div>
+        -->
 
     </div>
     <div >
@@ -72,53 +74,63 @@
 
 {% block javascript %}
 <script>
-    $("#station_select").click(function(){
+    var station = 'Banqiao';
+    var attribute = 'AMB_TEMP';
+    var selectValue, selectTime;
+
+    $.ajax({
+        url:"/weather/station_change",
+        data:{"select_station_value":station, "select_attribute_value":attribute},
+        dataType:"json",
+        success: function(back){
+                selectValue = back.user_request_data;
+                selectTime = back.user_request_time;
+                plotLine();
+        }
+    });
+
+    // 選單列控制
+    d3.select("#menu #station_select").on('change', function(){
+      station = d3.select("#menu #station_select").property('value');
+    });
+
+    d3.select("#menu #attribute_select").on('change', function(){
+      attribute = d3.select("#menu #attribute_select").property('value');
+    });
+
+    //資料庫
+    $("#btn").click(function(){
+        alert(station)
         $.ajax({
             url:"/weather/station_change",
-            data:{"hello":"yo yo hi hi yo hi yo hihi"},
+            data:{"select_station_value":station, "select_attribute_value":attribute},
             dataType:"json",
             success: function(back){
-                    alert(back.hello);
-
+                    selectValue = back.user_request_data;
+                    selectTime = back.user_request_time;
             }
         });
     });
-    // // django 資料
-    // var barHeight = {{bar_height}};
-    // //計算資料最大值
-    // var maxValue = d3.max(barHeight);
-    // // 抓取 #bar_chart 以及他的屬性
-    // var barChartHolder = d3.select("#bar_chart");
-    // var boundingRect = barChartHolder.node().getBoundingClientRect();
-    // var colmdHeight = 189;
-    // var margin = {top:20, right:20, bottom:30, left:40};
-    // //之後 每個 bar 的大小
-    // var barWidth = boundingRect.width / (barHeight.length+1);
-    // //抓到要畫圖的div 並加入 svg 和 group
-    // var svg = d3.select('#bar_chart').append('svg').attr('id', 'd3_rect')
-    //   .attr('width', boundingRect.width-margin.right).attr('height', colmdHeight-margin.bottom)
-    //   .append('g').attr('id', 'de_rect_group')
-    //   .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
-    //
-    // //比例尺 0~maxValue 映射到 0~div高度(495.5 * 189)
-    // var scale = d3.scaleLinear()
-    //               .domain([0,maxValue])
-    //               .range([0, colmdHeight-margin.bottom]);//反過來是因為y軸往下是正，這樣才會由下往上(有點問題)
-    // //比例尺變顏色!!
-    // var color = d3.scaleLinear().domain([0,maxValue]).range(["red", "blue"])
-    // //順序式比例尺 允許矩陣 => 矩陣 (離散 或 連續 都可以)
-    // var oScale = d3.scaleBand().domain(d3.range(barHeight.length))
-    //                .range([0, boundingRect.width-margin.right]) //para 1 : 同scale range 2: 值和值間的填補大小
-    //                .paddingInner(0.1);
-    //
-    // for (var i =0; i< barHeight.length; i++)
-    // {
-    //    svg.append('rect')
-    //    .attr('width', barWidth).attr('height',scale(barHeight[i])).attr('id','test rect_'+i)
-    //    .attr('x', oScale(i)).attr('y', colmdHeight-margin.bottom-scale(barHeight[i]))
-    //    .attr('fill', color(barHeight[i]));
-    // }
+
+    function plotLine(){
+      //曲線圖
+      var timeChartSelectSvg = d3.select('#chart_holder #time_chart_div')
+                                 .append('svg').attr('id','time_chart_svg');
+
+      var timeChartBounding = d3.select('#chart_holder #time_chart_div')
+                                .node().getBoundingClientRect();
+
+      var margin = {top: 40, right: 10, bottom: 20, left: 10},
+          height = timeChartBounding.height - margin.top - margin.bottom,
+          width = timeChartBounding.width - margin.right - margin.left;
+
+      alert(selectTime)
+      var xScale = d3.scaleTime().domain(selectTime).range([margin.left, width]);
+      var xAxis = d3.axisBottom(xScale);
+      timeChartSelectSvg.append('g').attr('id', 'time_chart_axis').call(xAxis).attr("transform", "translate(0," + height + ")");
+    }
 
 </script>
 {% endblock %}
+
 </html>
