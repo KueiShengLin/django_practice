@@ -21,6 +21,10 @@ def menu(request):
     return render(request, 'visualization.html', {"station_list": station_list, "attribute_list": attribute_list})
 
 
+def init_scale_size(request):
+    pass
+
+
 def return_station(request):
     station = str(request.GET.get("select_station_value"))
     attribute = str(request.GET.get("select_attribute_value"))
@@ -29,7 +33,7 @@ def return_station(request):
     station_data = pd.DataFrame(list(station_data.values()))
     station_data.index = station_data['time']
     del station_data['time']
-    station_data = station_data.resample('D').mean()  # 依照"D"(天) 重新間隔
+    station_data = station_data.resample('D').mean().dropna()  # 依照"D"(天) 重新間隔 再把nan的直接滅了
 
     user_request_time = list(station_data.index)
     user_request_data = list(station_data[attribute])
