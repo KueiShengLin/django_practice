@@ -18,9 +18,11 @@ from django.urls import path
 
 from weather.views import menu
 from weather.views import return_station
+from weather.views import init_scale_size
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('weather/', menu),
     path('weather/station_change', return_station, name="station_change"),
+    path('weather/init_scale_size', init_scale_size, name="init_scale_size")
 
 ]
