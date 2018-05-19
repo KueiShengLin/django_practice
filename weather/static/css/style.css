@@ -1,9 +1,18 @@
 @import "../bootstrap/css/bootstrap.min.css";
 
 body{
-    /*ç€è¦½å™¨æ²’æœ‰ç¬¬ä¸€ç¨®å­—å‹çš„æ™‚å€™ï¼Œæœƒè‡ªå‹•é¡¯ç¤ºç¬¬äºŒç¨®å­—å‹ï¼Œä»¥æ­¤é¡æ¨*/
+    /*¿ï¦rÅé ¨S²Ä¤@­Ó´N¿ï²Ä¤G­Ó ¥H¦¹Ãş±À*/
     font-family: serif, sans-serif, cursive, fantasy, monospace;
 
-    /*èƒŒæ™¯è‰²*/
+    /*­I´º¦â*/
     background: #fefefe;
+
 }
+
+.axis { font-size: 12px; }
+
+#line path{
+             fill: none;
+             stroke: #ffab00;
+             stroke-width: 3;
+        }

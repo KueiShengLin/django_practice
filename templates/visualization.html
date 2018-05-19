@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
+
 <head>
     <meta charset="UTF-8">
     <title>Visualization</title>
@@ -46,8 +47,13 @@
 
     <div id="chart_holder" class="row">
         <!--時間序列圖表-->
-        <div id="time_chart_div" class="col-md-12">
+        <div id="time_chart_div" class="col-md-8">
             time_chart
+            <svg id="time_chart_svg">
+                <g id="time_chart_x_axis"></g>
+                <g id="time_chart_y_axis"></g>
+                <g id="line"></g>
+            </svg>
         </div>
 
         <!--直方圖-->
@@ -58,79 +64,15 @@
         -->
 
     </div>
-    <div >
+    <div>
         <button type="button" id="btn">hello</button>
     </div>
 </body>
 
 <!--視覺化JS檔-->
 <!--
-    <script src="js/core.js"></script>
     <script src="js/menu.js"></script>
-    <script src="js/time_chart.js"></script>
-    <script src="js/bar_chart.js"></script>
-    <script src="js/main.js"></script>
 -->
-
-{% block javascript %}
-<script>
-    var station = 'Banqiao';
-    var attribute = 'AMB_TEMP';
-    var selectValue, selectTime;
-
-    $.ajax({
-        url:"/weather/station_change",
-        data:{"select_station_value":station, "select_attribute_value":attribute},
-        dataType:"json",
-        success: function(back){
-                selectValue = back.user_request_data;
-                selectTime = back.user_request_time;
-                plotLine();
-        }
-    });
-
-    // 選單列控制
-    d3.select("#menu #station_select").on('change', function(){
-      station = d3.select("#menu #station_select").property('value');
-    });
-
-    d3.select("#menu #attribute_select").on('change', function(){
-      attribute = d3.select("#menu #attribute_select").property('value');
-    });
-
-    //資料庫
-    $("#btn").click(function(){
-        alert(station)
-        $.ajax({
-            url:"/weather/station_change",
-            data:{"select_station_value":station, "select_attribute_value":attribute},
-            dataType:"json",
-            success: function(back){
-                    selectValue = back.user_request_data;
-                    selectTime = back.user_request_time;
-            }
-        });
-    });
-
-    function plotLine(){
-      //曲線圖
-      var timeChartSelectSvg = d3.select('#chart_holder #time_chart_div')
-                                 .append('svg').attr('id','time_chart_svg');
-
-      var timeChartBounding = d3.select('#chart_holder #time_chart_div')
-                                .node().getBoundingClientRect();
-
-      var margin = {top: 40, right: 10, bottom: 20, left: 10},
-          height = timeChartBounding.height - margin.top - margin.bottom,
-          width = timeChartBounding.width - margin.right - margin.left;
-
-      alert(selectTime)
-      var xScale = d3.scaleTime().domain(selectTime).range([margin.left, width]);
-      var xAxis = d3.axisBottom(xScale);
-      timeChartSelectSvg.append('g').attr('id', 'time_chart_axis').call(xAxis).attr("transform", "translate(0," + height + ")");
-    }
-
-</script>
-{% endblock %}
+<script src="{% static 'js/time_chart.js' %}"></script>
 
 </html>
