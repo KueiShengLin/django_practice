@@ -37,3 +37,8 @@
    > https://bl.ocks.org/d3noob/1ea51d03775b9650e8dfd03474e202fe
   * Something example
    > https://bl.ocks.org/
+  * Line transition
+   作法
+   > http://bl.ocks.org/duopixel/4063326
+   理論
+   > https://wcc723.github.io/svg/2014/06/15/svg-css-stroke-animation/

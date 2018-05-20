@@ -17,7 +17,6 @@ $.ajax({
     dataType: "json",
     async: true,
     success: function(returnData) {
-        alert(returnData.user_request_data);
         plotLine(returnData);
     },
     error: function(xhr, ts, et) {
@@ -44,8 +43,6 @@ $("#btn").click(function() {
         },
         dataType: "json",
         success: function(returnData) {
-            alert(station);
-            alert(returnData.user_request_data);
             plotLine(returnData);
 
         }
@@ -116,10 +113,18 @@ function plotLine(returnData) {
         })
         .curve(d3.curveMonotoneX);
 
-    timeChartSelectSvg.select('#line')
-        .append('path').datum(returnDataList)
+    var path = timeChartSelectSvg.select('#line')
+        .append('path').datum(returnDataList).attr('d', line);
+    var totalPathLength = path.node().getTotalLength();
+
+    path.attr("stroke-dasharray", totalPathLength + " " + totalPathLength)
+        .attr("stroke-dashoffset", totalPathLength)
         .style('stroke', color[coclorCount])
-        .attr('d', line);
+        .transition()
+        .ease(d3.easeLinear)
+        .duration(2000)
+        .attr("stroke-dashoffset", 0);
+    //.transition().duration(2000).ease("linear");
 
     coclorCount = (coclorCount + 1) % color.length;
 }
