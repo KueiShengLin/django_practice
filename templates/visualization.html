@@ -13,66 +13,112 @@
     <script src="http://d3js.org/d3.v4.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 </head>
 
 <body>
-    <h5 id="hello"></h5>
-    <!--選單列-->
-    <div id="menu" class="row">
-        <div id="station_select_div" class="col-md-4">
-            地名
-            <select class="form-control" id="station_select">
-                {% for station in station_list %}
-                    <option value={{station}}>{{station}}</option>
-                {% endfor %}
-            </select>
+    <div class='first_plot'>
+        <!--選單列-->
+        <div id="menu" class="row">
+            <div id="station_select_div" class="col-md-4">
+                地名
+                <select class="form-control" id="station_select">
+                    {% for station in station_list %}
+                        <option value={{station}}>{{station}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="attribute_select_div" class="col-md-4">
+                觀察對象
+                <select class="form-control" id="attribute_select">
+                    {% for attribute in attribute_list %}
+                        <option value={{attribute}}>{{attribute}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4 align-middle">
+                <button class="btn btn-primary" type="button" id="btn">hello</button>
+            </div>
+
         </div>
 
-        <div id="attribute_select_div" class="col-md-4">
-            觀察對象
-            <select class="form-control" id="attribute_select">
-                {% for attribute in attribute_list %}
-                    <option value={{attribute}}>{{attribute}}</option>
-                {% endfor %}
-            </select>
+        <!--視覺化元件-->
+        <div id="map_holder" class="row">
+            <!--台灣地圖-->
+            <div id="taiwan_map" class="col-md">taiwan_map</div>
+        </div>
+
+        <div id="chart_holder" class="row">
+            <!--時間序列圖表-->
+            <div id="time_chart_div" class="col-md-8">
+                time_chart
+                <svg id="time_chart_svg">
+                    <g id="time_chart_x_axis" class="axis"></g>
+                    <g id="time_chart_y_axis" class="axis"></g>
+                    <g id="line"></g>
+                </svg>
+            </div>
+
+            <!--直方圖-->
+            <!--
+            <div id="bar_chart_div" class="col-md-6">
+                <h5>bar_chart</h5>
+            </div>
+            -->
         </div>
     </div>
 
-    <!--視覺化元件-->
-    <div id="map_holder" class="row">
-        <!--台灣地圖-->
-        <div id="taiwan_map" class="col-md">taiwan_map</div>
-    </div>
+    <div class="second_plot">
+        <!--選單列-->
+        <div id="menu" class="row">
+            <div id="station_select_div" class="col-md-4">
+                地名
+                <select class="form-control" id="station_select">
+                    {% for station in station_list %}
+                        <option value={{station}}>{{station}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <div id="chart_holder" class="row">
-        <!--時間序列圖表-->
-        <div id="time_chart_div" class="col-md-8">
-            time_chart
-            <svg id="time_chart_svg">
-                <g id="time_chart_x_axis"></g>
-                <g id="time_chart_y_axis"></g>
-                <g id="line"></g>
-            </svg>
+            <div id="attribute_select_div" class="col-md-4">
+                觀察對象
+                <select class="form-control" id="attribute_select">
+                    {% for attribute in attribute_list %}
+                        <option value={{attribute}} >{{attribute}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn-primary" type="button" id="btn">hello</button>
+            </div>
+
         </div>
 
-        <!--直方圖-->
-        <!--
-        <div id="bar_chart_div" class="col-md-6">
-            <h5>bar_chart</h5>
+        <div id="chart_holder" class="row">
+            <!--時間序列圖表-->
+            <div id="time_chart_div" class="col-md-8">
+                time_chart
+                <svg id="time_chart_svg">
+                    <g id="time_chart_x_axis" class="axis"></g>
+                    <g id="time_chart_y_axis" class="axis"></g>
+                    <g id="line"></g>
+                </svg>
+            </div>
         </div>
-        -->
+    </div>
 
-    </div>
-    <div>
-        <button type="button" id="btn">hello</button>
-    </div>
+
 </body>
 
 <!--視覺化JS檔-->
 <!--
     <script src="js/menu.js"></script>
 -->
-<script src="{% static 'js/time_chart.js' %}"></script>
+<script src="{% static 'js/core.js' %}"></script>
 
 </html>
