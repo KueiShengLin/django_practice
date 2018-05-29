@@ -14,15 +14,20 @@ import pandas as pd
 
 
 def menu(request):
-
     station_list = AirQuality.objects.values_list('station', flat=True).distinct()
-    attribute_list = [meta_data.name for meta_data in AirQuality._meta.get_fields()]
+    attribute_list = [meta_data.name for meta_data in AirQuality._meta.get_fields()][3:]
 
     return render(request, 'visualization.html', {"station_list": station_list, "attribute_list": attribute_list})
 
 
-def init_scale_size(request):
-    pass
+def init_scale_size(attribute):
+    attribute_data = AirQuality.objects.values_list(attribute, flat=True)
+    max_value = max(attribute_data)
+    min_value = 0
+    if min(attribute_data) < 0:
+        min_value = min(attribute_data)
+
+    return min_value, max_value
 
 
 def return_station(request):
@@ -38,7 +43,10 @@ def return_station(request):
     user_request_time = list(station_data.index)
     user_request_data = list(station_data[attribute])
 
-    return_data = {"user_request_data": user_request_data, "user_request_time": user_request_time}
+    min_value, max_value = init_scale_size(attribute)
+
+    return_data = {"user_request_data": user_request_data, "user_request_time": user_request_time,
+                   "min_value": min_value, "max_value": max_value}
 
     return JsonResponse(return_data)
 
