@@ -1,10 +1,13 @@
 //代辦事項
 //暫時沒有
 //first plot
+station, attribute = selectFeature(".first_plot");
+var nowAttribute = {'.first_plot': 'AMB_TEMP', '.second_plot': 'AMB_TEMP'};
+var inPlotStation = {'.first_plot': [station], '.second_plot': [station]};
+
 $(".first_plot #btn").click(function() {
     // alert("first btn");
     station, attribute = selectFeature(".first_plot");
-
     $.ajax({
         url: "/weather/station_change",
         data: {
@@ -13,7 +16,7 @@ $(".first_plot #btn").click(function() {
         },
         dataType: "json",
         success: function(returnData) {
-            plotLine(returnData, '.first_plot');
+            checkAndPlot('.first_plot',0 , returnData, station);
         }
     });
 });
@@ -24,6 +27,7 @@ $(".second_plot #btn").click(function() {
     station, attribute = selectFeature(".second_plot");
 
     $.ajax({
+
         url: "/weather/station_change",
         data: {
             "select_station_value": station,
@@ -31,10 +35,27 @@ $(".second_plot #btn").click(function() {
         },
         dataType: "json",
         success: function(returnData) {
-            plotLine(returnData, '.second_plot');
+            checkAndPlot('.second_plot',1 , returnData, station);
         }
     });
 });
+
+function checkAndPlot(plotDiv, plotID, returnData, station){
+    if (attribute != nowAttribute[plotDiv]){
+
+        d3.select(plotDiv).select('#time_chart_div #time_chart_svg #line').remove();
+        d3.select(plotDiv).select('#time_chart_div #time_chart_svg').append('g').attr('id', 'line');
+        nowAttribute[plotDiv] = attribute;
+    }
+
+    if (inPlotStation[plotDiv].includes(station) == false) {
+
+        plotLine(returnData, plotDiv);
+        addText(station, plotDiv);
+        inPlotStation[plotDiv].push(station);
+
+    }
+}
 
 function selectFeature(plotDiv){
     // 選單列控制
