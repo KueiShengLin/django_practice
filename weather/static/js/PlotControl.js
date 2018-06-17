@@ -16,7 +16,7 @@ $(".first_plot #btn").click(function() {
         },
         dataType: "json",
         success: function(returnData) {
-            checkAndPlot('.first_plot',0 , returnData, station);
+            checkAndPlot('.first_plot',0 , returnData, station, attribute);
         }
     });
 });
@@ -35,23 +35,24 @@ $(".second_plot #btn").click(function() {
         },
         dataType: "json",
         success: function(returnData) {
-            checkAndPlot('.second_plot',1 , returnData, station);
+            checkAndPlot('.second_plot',1 , returnData, station, attribute);
         }
     });
 });
 
-function checkAndPlot(plotDiv, plotID, returnData, station){
+function checkAndPlot(plotDiv, plotID, returnData, station, attribute){
     if (attribute != nowAttribute[plotDiv]){
 
         d3.select(plotDiv).select('#time_chart_div #time_chart_svg #line').remove();
         d3.select(plotDiv).select('#time_chart_div #time_chart_svg').append('g').attr('id', 'line');
+        inPlotStation[plotDiv] = [];
         nowAttribute[plotDiv] = attribute;
     }
 
     if (inPlotStation[plotDiv].includes(station) == false) {
 
         plotLine(returnData, plotDiv);
-        addText(station, plotDiv);
+        addText(station, plotDiv, returnData, attribute);
         inPlotStation[plotDiv].push(station);
 
     }

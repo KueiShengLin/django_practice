@@ -23,10 +23,24 @@ def menu(request):
 def init_scale_size(attribute):
     attribute_data = AirQuality.objects.values_list(attribute, flat=True)
     max_value = max(attribute_data)
-    min_value = 0
-    if min(attribute_data) < 0:
-        min_value = min(attribute_data)
+    min_value = min(attribute_data)
 
+    # attribute_data = AirQuality.objects.values_list(attribute, flat=True)
+    # attribute_info = AirQuality.objects.values("station", "time", attribute)
+    #
+    # max_value_index = list(attribute_data).index(max(attribute_data))
+    # max_value_time = str(attribute_info[max_value_index]['time'].year) + \
+    #                  "-" + str(attribute_info[max_value_index]['time'].month) + \
+    #                  "-" + str(attribute_info[max_value_index]['time'].day)
+    #
+    # max_value_station_data = pd.DataFrame(list(attribute_info))
+    # max_value_station_data.index = max_value_station_data['time']
+    # del max_value_station_data['time']
+    #
+    # max_value_station_data = max_value_station_data.resample('D').mean().dropna()  # 依照"D"(天) 重新間隔 再把nan的直接滅了
+    #
+    # min_value = min(attribute_data)
+    # max_value = max_value_station_data.loc[max_value_time]
     return min_value, max_value
 
 

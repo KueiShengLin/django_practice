@@ -2,14 +2,14 @@
 
 ## Django
 ### 初學
-  * Django 基本教學 - 從無到有
-    > https://github.com/twtrubiks/django-tutorial
-    > https://carolhsu.gitbooks.io/django-girls-tutorial-traditional-chiness/content/python_installation/README.html
-    > https://djangogirlstaipei.gitbooks.io/django-girls-taipei-tutorial/django/installation.html
+    * Django 基本教學 - 從無到有
+    > https://github.com/twtrubiks/django-tutorial <br>
+    > https://carolhsu.gitbooks.io/django-girls-tutorial-traditional-chiness/content/python_installation/README.html <br>
+    > https://djangogirlstaipei.gitbooks.io/django-girls-taipei-tutorial/django/installation.html <br>
 ### ORM
   * Shell 指令
-    > https://blog.liang2.tw/posts/2015/10/django-draw-member/#django-model-and-orm
-    > https://hk.saowen.com/a/3c3fc453b801ef6b09b730a063b47470581f4306780a0f518f86d0d2b1382b2f
+    > https://blog.liang2.tw/posts/2015/10/django-draw-member/#django-model-and-orm <br>
+    > https://hk.saowen.com/a/3c3fc453b801ef6b09b730a063b47470581f4306780a0f518f86d0d2b1382b2f <br>
 ### Template Tag
   * 官方文本
     > https://docs.djangoproject.com/en/2.0/ref/templates/builtins/
@@ -27,7 +27,7 @@
   * W3 School
    > https://www.w3schools.com/bootstrap/default.asp
 ### Node JS NPM
-  * 人家的Git 文件
+  * 人家的Git 文件【
    > https://github.com/nodejs-tw/nodejs-wiki-book/blob/master/zh-tw/node_npm.rst
 ### D3
   * Data-Driven Documents
@@ -38,7 +38,9 @@
   * Something example
    > https://bl.ocks.org/
   * Line transition
-   作法
-   > http://bl.ocks.org/duopixel/4063326
-   理論
+   作法 <br>
+   > http://bl.ocks.org/duopixel/4063326 <br>
+   理論 <br>
    > https://wcc723.github.io/svg/2014/06/15/svg-css-stroke-animation/
+  * Line mouse event
+   > https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91

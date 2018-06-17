@@ -63,6 +63,7 @@ function plotLine(returnData, plotDiv) {
 
     //曲線圖
     var line = d3.line().x(function(d) {
+
             return xScale(d.user_request_time);
         })
         .y(function(d) {
@@ -71,7 +72,7 @@ function plotLine(returnData, plotDiv) {
         .curve(d3.curveMonotoneX);
 
     var path = timeChartSelectSvg.select('#line')
-        .append('path').datum(returnDataList).attr('d', line);
+        .append('path').attr('class', (plotDiv + 'lines')).datum(returnDataList).attr('d', line);
     var totalPathLength = path.node().getTotalLength();
     var pickStation = d3.select(plotDiv).select("#menu #station_select").property('value');
     path.attr("stroke-dasharray", totalPathLength + " " + totalPathLength)

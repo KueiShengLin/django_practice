@@ -1,10 +1,11 @@
-@import "../bootstrap/css/bootstrap.min.css";
+@import "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css";
 
 body{
-    /*選字體 沒第一個就選第二個 以此類推*/
+    margin-left: 20px;
+
     font-family: serif, sans-serif, cursive, fantasy, monospace;
 
-    /*背景色*/
     background: #fefefe;
 
 }
@@ -14,5 +15,5 @@ body{
 #line path{
              fill: none;
              stroke: #ffab00;
-             stroke-width: 3;
+             stroke-width: 2;
         }
