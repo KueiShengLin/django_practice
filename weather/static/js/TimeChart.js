@@ -3,6 +3,7 @@
 //y 有一些極端值看要不要去掉
 //width = 400
 //看要不要把x y 軸拿出來計算
+//注意
 //先畫好圖放進div 才能把bootstrap 撐開
 function plotLine(returnData, plotDiv) {
     // alert(plotDiv)
@@ -38,7 +39,7 @@ function plotLine(returnData, plotDiv) {
             top: 40,
             right: 10,
             bottom: 100,
-            left: 30
+            left: 40
         },
         height = timeChartBounding.height - margin.top - margin.bottom,
         width = timeChartBounding.width - margin.right - margin.left;
@@ -72,15 +73,13 @@ function plotLine(returnData, plotDiv) {
     var path = timeChartSelectSvg.select('#line')
         .append('path').datum(returnDataList).attr('d', line);
     var totalPathLength = path.node().getTotalLength();
-
+    var pickStation = d3.select(plotDiv).select("#menu #station_select").property('value');
     path.attr("stroke-dasharray", totalPathLength + " " + totalPathLength)
         .attr("stroke-dashoffset", totalPathLength)
-        .style('stroke', color[coclorCount])
+        .style('stroke', 'hsl(' + stationDictionary[pickStation] * 12 + ',100%, 40%)')
         .transition()
         .ease(d3.easeLinear)
         .duration(2000)
         .attr("stroke-dashoffset", 0);
     //.transition().duration(2000).ease("linear");
-
-    coclorCount = (coclorCount + 1) % color.length;
 }
